@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-//используется enum
+//РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ  enum
 enum StudentType {
     GOOD,
     MID,
