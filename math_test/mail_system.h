@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <queue>
-//все методы внутри классов
+//РІСЃРµ РјРµС‚РѕРґС‹ РІРЅСѓС‚СЂРё РєР»Р°СЃСЃРѕРІ
 struct Mail {
     double a, b, c;
     double root1, root2;
@@ -24,7 +24,7 @@ public:
 
 class MailQueue {
 private:
-    std::queue<Mail> q; //используется std::queue
+    std::queue<Mail> q; // РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ std::queue
 
 public:
     void push(double a, double b, double c,
