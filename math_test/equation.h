@@ -1,6 +1,6 @@
 #pragma once
 #include <cmath>
-//все методы внутри класса
+//РІСЃРµ РјРµС‚РѕРґС‹ РІРЅСѓС‚СЂРё РєР»Р°СЃСЃР°
 class Equation {
 private:
     static constexpr double EPS = 1e-6;
