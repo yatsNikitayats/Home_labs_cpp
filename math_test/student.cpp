@@ -10,7 +10,7 @@ const std::string& Student::getName() const {
     return name;
 }
 
-//нет отдельной функции makeWrongAnswer
+//РЅРµС‚ РѕС‚РґРµР»СЊРЅРѕР№ С„СѓРЅРєС†РёРё makeWrongAnswer
 void Student::solve(double a, double b, double c,
     double& root1, double& root2,
     int& solutionType) const {
