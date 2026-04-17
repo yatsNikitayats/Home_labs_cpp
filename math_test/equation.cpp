@@ -1,7 +1,7 @@
 #include "equation.h"
 
 int Equation::solve(double a, double b, double c, double& x1, double& x2) {
-    if (fabs(a) < EPS) return -1;//защита от вырожденного случая линейного уравнения
+    if (fabs(a) < EPS) return -1;//Р·Р°С‰РёС‚Р° РѕС‚ РІС‹СЂРѕР¶РґРµРЅРЅРѕРіРѕ СЃР»СѓС‡Р°СЏ Р»РёРЅРµР№РЅРѕРіРѕ СѓСЂР°РІРЅРµРЅРёСЏ
 
     double D = b * b - 4 * a * c;
 
@@ -39,5 +39,6 @@ bool Equation::check(double a, double b, double c,
 
     return (correct == -1 && type == -1);
 }
+
 
 
