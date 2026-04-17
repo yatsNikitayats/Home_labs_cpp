@@ -1,11 +1,13 @@
 #include <iostream>
 #include <ctime>
+#include <cstdlib>
 #include <locale>
-#include "student.h"
 #include "mail_system.h"
+#include "student.h"
+#include "equation.h"
 
 int main() {
-    srand((unsigned)time(0));
+    srand((unsigned)time(nullptr));//вызывается srand(time)
 
     setlocale(LC_ALL, "");
     std::locale::global(std::locale(""));
@@ -13,10 +15,14 @@ int main() {
     const int MAX_EQUATIONS = 100;
     double equations[MAX_EQUATIONS][3];
 
-    int eqCount = loadEquations("data/equations.txt", equations, MAX_EQUATIONS);
+    int eqCount = MailSystem::loadEquations(
+        "data/equations.txt",
+        equations,
+        MAX_EQUATIONS
+    );
 
-    if (eqCount == 0) {
-        std::cout << "Нет уравнений\n";
+    if (eqCount <= 0) {
+        std::cout << "Ошибка или пустой файл\n";
         return 1;
     }
 
@@ -31,10 +37,43 @@ int main() {
     int studentCount = sizeof(students) / sizeof(students[0]);
 
     MailQueue queue;
-    generateMails(queue, equations, eqCount, students, studentCount);
+
+    for (int i = 0; i < eqCount; i++) {
+
+        double a = equations[i][0];
+        double b = equations[i][1];
+        double c = equations[i][2];
+
+        for (int j = 0; j < studentCount; j++) {
+
+            double r1 = 0, r2 = 0;
+            int type = 0;
+
+            students[j].solve(a, b, c, r1, r2, type);
+
+            queue.push(
+                a, b, c,
+                r1, r2,
+                type,
+                students[j].getName()
+            );
+        }
+    }
 
     ResultsTable results;
-    processMails(queue, results);
+
+    while (!queue.empty()) {
+
+        Mail m = queue.pop();
+
+        bool correct = Equation::check(
+            m.a, m.b, m.c,
+            m.root1, m.root2,
+            m.solutionType
+        );
+
+        results.add(m.studentName, correct);
+    }
 
     results.print();
 

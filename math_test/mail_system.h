@@ -1,13 +1,12 @@
 #pragma once
 #include <string>
-#include "student.h"
-
+#include <queue>
+//все методы внутри классов
 struct Mail {
     double a, b, c;
     double root1, root2;
     int solutionType;
     std::string studentName;
-    Mail* next;
 };
 
 struct Result {
@@ -16,46 +15,33 @@ struct Result {
     Result* next;
 };
 
+class MailSystem {
+public:
+    static int loadEquations(const std::string& filename,
+        double eq[][3],
+        int maxCount);
+};
+
 class MailQueue {
 private:
-    Mail* head;
-    Mail* tail;
+    std::queue<Mail> q; //используется std::queue
 
 public:
-    MailQueue();
-    ~MailQueue();
-
     void push(double a, double b, double c,
         double root1, double root2,
-        int solutionType,
-        const std::string& name);
+        int solutionType, const std::string& name);
 
-    Mail* pop();
+    Mail pop();
     bool empty() const;
 };
 
 class ResultsTable {
 private:
-    Result* head;
+    Result* head = nullptr;
 
 public:
-    ResultsTable();
     ~ResultsTable();
 
     void add(const std::string& name, bool correct);
     void print() const;
 };
-
-
-int loadEquations(const std::string& filename,
-    double equations[][3],
-    int maxEquations);
-
-void generateMails(MailQueue& queue,
-    const double equations[][3],
-    int eqCount,
-    const Student students[],
-    int studentCount);
-
-void processMails(MailQueue& queue,
-    ResultsTable& results);

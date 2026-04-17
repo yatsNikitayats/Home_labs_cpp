@@ -1,17 +1,19 @@
 #pragma once
 #include <string>
-
-const int GOOD = 1;
-const int MID = 2;
-const int BAD = 3;
+//используется enum
+enum StudentType {
+    GOOD,
+    MID,
+    BAD
+};
 
 class Student {
 private:
     std::string name;
-    int type;
+    StudentType type;
 
 public:
-    Student(const std::string& n, int t);
+    Student(const std::string& n, StudentType t);
 
     const std::string& getName() const;
 

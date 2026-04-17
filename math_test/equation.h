@@ -1,10 +1,13 @@
 #pragma once
 #include <cmath>
+//все методы внутри класса
+class Equation {
+private:
+    static constexpr double EPS = 1e-6;
 
-const double EPS = 1e-6;
+public:
+    static int solve(double a, double b, double c, double& x1, double& x2);
 
-int solveEquation(double a, double b, double c, double& x1, double& x2);
-
-bool checkAnswer(double a, double b, double c,
-    double root1, double root2,
-    int solutionType);
+    static bool check(double a, double b, double c,
+        double r1, double r2, int type);
+};
