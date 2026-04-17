@@ -39,6 +39,3 @@ bool Equation::check(double a, double b, double c,
 
     return (correct == -1 && type == -1);
 }
-
-
-
