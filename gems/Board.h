@@ -1,4 +1,6 @@
 #pragma once
+#include <memory>
+#include "Cell.h"
 #include "Bonus.h"
 
 class Board {
@@ -6,25 +8,27 @@ public:
     static constexpr int SIZE = 14;
 
     Board();
+    ~Board() = default;
 
-    int getCell(int x, int y) const;
-    void setCell(int x, int y, int value);
-    Bonus getBonus(int x, int y) const;
-    void setBonus(int x, int y, const Bonus& b);
+    Cell* getCell(int x, int y) const;
+    void setCell(int x, int y, std::unique_ptr<Cell> cell);
+
+    
+    std::unique_ptr<Cell> releaseCell(int x, int y);
+
     void swapCells(int x1, int y1, int x2, int y2);
-    void clearBonus(int x, int y);
 
+   
     bool isEmpty(int x, int y) const;
     bool hasBonusAt(int x, int y) const;
     int getSize() const;
 
-    int getFieldAt(int x, int y) const { return field[y][x]; }
-    int& getFieldAt(int x, int y) { return field[y][x]; }
-    Bonus getBonusAt(int x, int y) const { return bonus[y][x]; }
-    Bonus& getBonusAt(int x, int y) { return bonus[y][x]; }
+    
+    void clearCell(int x, int y);
 
 private:
-    int field[SIZE][SIZE];
-    Bonus bonus[SIZE][SIZE];
+    std::unique_ptr<Cell> grid[SIZE][SIZE];
 };
+
+
 

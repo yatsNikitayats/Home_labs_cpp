@@ -1,6 +1,5 @@
 ﻿#include "BoardGravity.h"
-#include "BoardMatchFinder.h"
-#include "BonusManager.h"
+#include "CellFactory.h"
 #include "Utils.h"
 #include <iostream>
 
@@ -12,15 +11,20 @@ void BoardGravity::applyGravity(Board& board) {
 
         for (int i = N - 1; i >= 0; i--) {
             if (!board.isEmpty(j, i)) {
-                board.setCell(j, write, board.getCell(j, i));
-                board.setBonus(j, write, board.getBonus(j, i));
+                 
+                if (write != i) {
+                    
+                    auto cell = board.releaseCell(j, i); 
+                    board.setCell(j, write, std::move(cell)); 
+                }
                 write--;
             }
         }
 
+        
         while (write >= 0) {
-            board.setCell(j, write, rnd(0, 4));
-            board.clearBonus(j, write);
+            int newColor = rnd(0, 4);
+            board.setCell(j, write, CellFactory::createNormalCell(newColor));
             write--;
         }
     }

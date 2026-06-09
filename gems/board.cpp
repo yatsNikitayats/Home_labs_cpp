@@ -1,51 +1,46 @@
 #include "Board.h"
+#include "CellFactory.h"
 #include "Utils.h"
 
 Board::Board() {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
-            field[i][j] = -1;
-            bonus[i][j].type = BonusType::NONE;
-            bonus[i][j].originColor = -1;
+            grid[i][j] = nullptr;
         }
     }
 }
 
-int Board::getCell(int x, int y) const {
-    return field[y][x];
+Cell* Board::getCell(int x, int y) const {
+    return grid[y][x].get();
 }
 
-void Board::setCell(int x, int y, int value) {
-    field[y][x] = value;
+void Board::setCell(int x, int y, std::unique_ptr<Cell> cell) {
+    grid[y][x] = std::move(cell);
 }
 
-Bonus Board::getBonus(int x, int y) const {
-    return bonus[y][x];
-}
-
-void Board::setBonus(int x, int y, const Bonus& b) {
-    bonus[y][x] = b;
+std::unique_ptr<Cell> Board::releaseCell(int x, int y) {
+    return std::move(grid[y][x]);
 }
 
 void Board::swapCells(int x1, int y1, int x2, int y2) {
-    std::swap(field[y1][x1], field[y2][x2]);
-    std::swap(bonus[y1][x1], bonus[y2][x2]);
-}
-
-void Board::clearBonus(int x, int y) {
-    bonus[y][x].type = BonusType::NONE;
-    bonus[y][x].originColor = -1;
+    std::swap(grid[y1][x1], grid[y2][x2]);
 }
 
 bool Board::isEmpty(int x, int y) const {
-    return field[y][x] == -1;
+    return grid[y][x] == nullptr;
 }
 
 bool Board::hasBonusAt(int x, int y) const {
-    return bonus[y][x].type != BonusType::NONE;
+    return grid[y][x] && grid[y][x]->isBonus();
 }
 
 int Board::getSize() const {
     return SIZE;
 }
+
+void Board::clearCell(int x, int y) {
+    grid[y][x].reset();
+}
+
+
 

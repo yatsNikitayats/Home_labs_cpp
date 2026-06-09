@@ -36,3 +36,7 @@ sf::Color getColor(int v, bool hasBonus, int bonusType) {
     return base;
 }
 
+
+
+
+
